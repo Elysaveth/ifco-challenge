@@ -1,0 +1,101 @@
+services:
+  backend:
+    build: backend
+    depends_on:
+      - postgres
+      - redis
+      - kafka
+    secrets:
+      - db-password
+      - redis-password
+    environment:
+      - POSTGRES_DB=challenge
+      - POSTGRES_PORT=5432
+      - REDIS_PORT=6379
+    networks:
+      - backend-net
+    ports:
+      - 8080:8080
+
+  postgres:
+    image: postgres:latest
+    restart: unless-stopped
+    secrets:
+      - db-password
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
+    environment:
+      - POSTGRES_DB=challenge
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+    networks:
+      - backend-net
+    ports:
+      - 5432
+
+  redis:
+    image: redis:latest
+    restart: unless-stopped
+    secrets:
+      - redis-password
+    command: ["sh", "-c", "redis-server --requirepass $(cat /run/secrets/redis-password)"]
+    volumes:
+      - cache:/data
+    networks:
+      - backend-net
+    ports:
+      - 6379
+
+  kafka:
+    image: docker.redpanda.com/redpanda/redpanda:latest
+    restart: unless-stopped
+    command:
+      - redpanda
+      - start
+      - --overprovisioned
+      - --smp=1
+      - --memory=1G
+      - --reserve-memory=0M
+      - --node-id=0
+      - --check=false
+      - --set redpanda.auto_create_topics_enabled=true
+    environment:
+      - REDPANDA_AUTO_CREATE_TOPICS=true
+    networks:
+      - backend-net
+    ports:
+      - 9092
+
+  # Used for performance-checks, not necessary
+  influxdb:
+    image: influxdb:2.7
+    restart: unless-stopped
+    secrets:
+      - influxdb-password
+    volumes:
+      - influxdb-data:/var/lib/influxdb2
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD_FILE=/run/secrets/influxdb-password
+      - DOCKER_INFLUXDB_INIT_ORG=myorg
+      - DOCKER_INFLUXDB_INIT_BUCKET=telemetry
+    networks:
+      - backend-net
+    ports:
+      - 8086
+
+volumes:
+  cache:
+  db-data:
+secrets:
+  db-password:
+    file: db/credentials.pass
+  redis-password:
+    file: redis/credentials.pass
+  influx-password:
+    file: influx/credentials.pass
+  influxdb-password:
+    file: influxdb/credentials.pass
+networks:
+  backend-net:
