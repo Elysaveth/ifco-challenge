@@ -18,12 +18,12 @@ public class TelemetryRepositoryImpl implements TelemetryRepo {
     public Telemetry save(Telemetry telemetry) {
 
         TelemetryEntity entity = new TelemetryEntity();
-        entity.setDeviceId(telemetry.getDeviceId());
-        entity.setTemperature(telemetry.getTemperature());
-        entity.setTimestamp(telemetry.getTimestamp());
+        entity.setDeviceId(telemetry.deviceId());
+        entity.setTemperature(telemetry.temperature());
+        entity.setDate(telemetry.date());
         
         TelemetryEntity saved = jpaTelemetryRepo.save(entity);
         
-        return new Telemetry(saved.getDeviceId(), saved.getTemperature(), saved.getTimestamp());
+        return new Telemetry(saved.getDeviceId(), saved.getTemperature(), saved.getDate());
     }
 }

@@ -23,6 +23,6 @@ public class TelemetryEntity {
     private Long id;
     private String deviceId;
     private double temperature;
-    private Instant timestamp;
+    private Instant date;
 
 }

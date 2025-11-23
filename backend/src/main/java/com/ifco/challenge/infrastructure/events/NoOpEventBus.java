@@ -4,12 +4,12 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import com.ifco.challenge.domain.bus.EventBus;
-import com.ifco.challenge.domain.event.TelemetryRecorded;
+import com.ifco.challenge.domain.model.Telemetry;
 
 @Component
 @Profile("test")
 public class NoOpEventBus implements EventBus {
 
     @Override
-    public void publish(TelemetryRecorded event) {}
+    public void publish(Telemetry event) {}
 }

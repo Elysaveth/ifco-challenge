@@ -1,20 +1,22 @@
 package com.ifco.challenge.infrastructure.events;
 
+import java.util.concurrent.ExecutionException;
+
 import org.springframework.kafka.annotation.KafkaListener;
 
-import com.ifco.challenge.application.listener.TelemetryRecordedEventHandler;
-import com.ifco.challenge.domain.event.TelemetryRecorded;
+import com.ifco.challenge.application.listener.TelemetryEventHandler;
+import com.ifco.challenge.domain.model.Telemetry;
 
 public class TelemetryRecordedKafkaListener {
     
-    private final TelemetryRecordedEventHandler handler;
+    private final TelemetryEventHandler handler;
 
-    public TelemetryRecordedKafkaListener (TelemetryRecordedEventHandler handler) {
+    public TelemetryRecordedKafkaListener (TelemetryEventHandler handler) {
         this.handler = handler;
     }
 
     @KafkaListener(topics = "${topics.telemetry-recorded}", groupId = "telemetry")
-    public void listener (TelemetryRecorded event) {
+    public void listener (Telemetry event) throws InterruptedException, ExecutionException {
         handler.handle(event);
     }
 }

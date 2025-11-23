@@ -1,0 +1,28 @@
+package com.ifco.challenge.infrastructure.cache;
+
+import com.ifco.challenge.domain.model.Telemetry;
+import com.ifco.challenge.application.port.GetLatestTelemetry;
+import com.ifco.challenge.application.port.SaveLatestTelemetry;
+
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+
+public class TelemetryProjectionRepoAdapter implements GetLatestTelemetry, SaveLatestTelemetry {
+
+    private final TelemetryProjectionRepo projectionRepo;
+
+    public TelemetryProjectionRepoAdapter(TelemetryProjectionRepo projectionRepo) {
+        this.projectionRepo = projectionRepo;
+    }
+
+    @Override
+    public CompletableFuture<Optional<Telemetry>> getLatestTelemetry(String deviceId) {
+        return projectionRepo.findByDeviceId(deviceId)
+                .thenApply(result -> result.map(DeviceTelemetryProjection::toDomain));
+    }
+
+    @Override
+    public CompletableFuture<Void> save(Telemetry telemetry) {
+        return projectionRepo.save(telemetry);
+    }
+}

@@ -9,6 +9,8 @@ import java.util.concurrent.CompletableFuture;
 
 import org.springframework.stereotype.Repository;
 
+import com.ifco.challenge.domain.model.Telemetry;
+
 import io.lettuce.core.ScanArgs;
 import io.lettuce.core.ScanCursor;
 import io.lettuce.core.api.StatefulRedisConnection;
@@ -23,15 +25,13 @@ public class TelemetryProjectionRepo {
         this.async = lettuceConnection.async();
     }
 
-    public void updateLatestTemperatures(String deviceId, double temperature, Instant timestamp) {
-        // TODO update only if is last
-
+    public CompletableFuture<Void> save(Telemetry telemetry) {
         Map<String, String> map = Map.of(
-            "temperature", String.valueOf(temperature),
-            "date", timestamp.toString()
+            "temperature", String.valueOf(telemetry.temperature()),
+            "date", telemetry.date().toString()
         );
 
-        async.hmset(deviceId, map).toCompletableFuture();
+        return async.hmset(telemetry.deviceId(), map).toCompletableFuture().thenApply(result -> null);
     }
 
     public CompletableFuture<List<DeviceTelemetryProjection>> findAllAsync() {
@@ -61,7 +61,6 @@ public class TelemetryProjectionRepo {
 
                 CompletableFuture<Void> allReads = CompletableFuture.allOf(readFutures.toArray(new CompletableFuture[0]));
 
-                // Continue scanning if not finished
                 return allReads.thenCompose(v -> {
                     if (!cursor.isFinished()) {
                         return CompletableFuture.completedFuture(result);
@@ -72,7 +71,6 @@ public class TelemetryProjectionRepo {
             });
     }
 
-    // Added for convenince
     public CompletableFuture<Optional<DeviceTelemetryProjection>> findByDeviceId(String deviceId) {
         
         return async.hgetall(deviceId).toCompletableFuture().thenApply(map -> {

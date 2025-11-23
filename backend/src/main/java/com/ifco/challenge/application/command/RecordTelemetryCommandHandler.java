@@ -3,7 +3,6 @@ package com.ifco.challenge.application.command;
 import org.springframework.stereotype.Component;
 
 import com.ifco.challenge.domain.bus.EventBus;
-import com.ifco.challenge.domain.event.TelemetryRecorded;
 import com.ifco.challenge.domain.model.Telemetry;
 import com.ifco.challenge.domain.repository.TelemetryRepo;
 
@@ -24,15 +23,15 @@ public class RecordTelemetryCommandHandler {
         Telemetry telemetry = new Telemetry(
             command.deviceId(),
             (command.temperature() == null) ? (double) 0 : command.temperature(),
-            command.timestamp()
+            command.date()
         );
 
         Telemetry saved = telemetryRepo.save(telemetry);
 
-        eventBus.publish(new TelemetryRecorded(
-            saved.getDeviceId(),
-            saved.getTemperature(),
-            saved.getTimestamp()
+        eventBus.publish(new Telemetry(
+            saved.deviceId(),
+            saved.temperature(),
+            saved.date()
         ));
     }
 

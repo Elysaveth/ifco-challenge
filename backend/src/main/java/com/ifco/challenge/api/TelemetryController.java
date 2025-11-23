@@ -26,7 +26,7 @@ public class TelemetryController {
         RecordTelemetryCommand command = new RecordTelemetryCommand(
             telemetry.deviceId(),
             telemetry.temperature(),
-            telemetry.timestamp()
+            telemetry.date()
         );
 
         handler.handle(command);

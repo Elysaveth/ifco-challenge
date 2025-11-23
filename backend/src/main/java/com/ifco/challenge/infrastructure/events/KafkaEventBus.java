@@ -6,22 +6,22 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import com.ifco.challenge.domain.bus.EventBus;
-import com.ifco.challenge.domain.event.TelemetryRecorded;
+import com.ifco.challenge.domain.model.Telemetry;
 
 @Component
 @Profile("!test")
 public class KafkaEventBus implements EventBus {
-    private final KafkaTemplate<String, TelemetryRecorded> kafkaTemplate;
+    private final KafkaTemplate<String, Telemetry> kafkaTemplate;
 
     @Value("${topics.telemetry-recorded}")
     private String topic;
 
-    public KafkaEventBus (KafkaTemplate<String, TelemetryRecorded> kafkaTemplate) {
+    public KafkaEventBus (KafkaTemplate<String, Telemetry> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
     @Override
-    public void publish(TelemetryRecorded event) {
+    public void publish(Telemetry event) {
         kafkaTemplate.send(topic, event.deviceId(), event);
     }
 }
