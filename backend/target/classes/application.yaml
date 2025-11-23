@@ -1,3 +1,48 @@
 spring:
   application:
     name: challenge
+
+  datasource:
+    url: jdbc:postgresql://postgres:5432/challenge
+    username: postgres
+    password: ${docker-secret.postgres.passwd:password}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      idle-timeout: 30000
+      pool-name: HikariCP
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  data:
+    redis:
+      host: redis
+      port: 6379
+      password: ${docker-secret.redis.passwd:password}
+
+  kafka:
+    bootstrap-servers:
+    - "kafka:9092"
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  influx:
+    metrics:
+      export:
+        enabled: true
+        uri: "http://influxdb:8086"
+        db: challenge_metrics
+        password: ${docker-secret.influx.passwd:password}
+
+
+docker-secret:
+  bind-path: /run/secrets/

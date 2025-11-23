@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: challenge
+
+
+    
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+    hikari:
+      driver-class-name: org.h2.Driver
+    
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  kafka:
+    bootstrap-servers:
+    - "kafka:9092"
+
+  sql:
+    init:
+      mode: always
+
+
+logging.level: 
+  '[org.springframework.boot.test.autoconfigure.jdbc]': DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  influx:
+    metrics:
+      export:
+        enabled: true
+        uri: "http://localhost:8086"
+        db: challenge_metrics
+        password: test
+
+
+docker-secret:
+  bind-path: /run/secrets/

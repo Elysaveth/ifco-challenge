@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "docker-secret.bind-path",
+  "type": "java.lang.String",
+  "description": "Path to secrets inside Docker container"
+}]}

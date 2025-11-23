@@ -1,1 +1,13 @@
 com\ifco\challenge\ChallengeApplication.class
+com\ifco\challenge\infrastructure\db\TelemetryRepositoryImpl.class
+com\ifco\challenge\application\service\TelemetryServiceImpl.class
+com\ifco\challenge\infrastructure\cache\RedisConfig.class
+com\ifco\challenge\domain\service\TelemetryService.class
+com\ifco\challenge\infrastructure\events\KafkaConfig.class
+com\ifco\challenge\domain\repository\TelemetryRepository.class
+com\ifco\challenge\domain\model\Telemetry.class
+com\ifco\challenge\infrastructure\metrics\MetricsConfig.class
+com\ifco\challenge\infrastructure\db\SpringDataTelemetryRepository.class
+com\ifco\challenge\infrastructure\config\DockerSecretProcessor.class
+com\ifco\challenge\api\TelemetryController.class
+com\ifco\challenge\infrastructure\db\entity\TelemetryEntity.class

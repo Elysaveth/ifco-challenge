@@ -1,0 +1,5 @@
+# Created at 2025-11-22T18:33:12.740
+Boot Manifest-JAR contains absolute paths in classpath 'd:\Proyectos\ifco-challenge\backend\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+'other' has different root
+

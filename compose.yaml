@@ -21,12 +21,13 @@ services:
     image: postgres:latest
     restart: unless-stopped
     secrets:
-      - db-password
+      - postgres-password
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
       - ./db/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
     environment:
       - POSTGRES_DB=challenge
+      - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
     networks:
       - backend-net
@@ -78,7 +79,7 @@ services:
       - DOCKER_INFLUXDB_INIT_MODE=setup
       - DOCKER_INFLUXDB_INIT_USERNAME=admin
       - DOCKER_INFLUXDB_INIT_PASSWORD_FILE=/run/secrets/influxdb-password
-      - DOCKER_INFLUXDB_INIT_ORG=myorg
+      - DOCKER_INFLUXDB_INIT_ORG=challenge
       - DOCKER_INFLUXDB_INIT_BUCKET=telemetry
     networks:
       - backend-net
@@ -87,15 +88,13 @@ services:
 
 volumes:
   cache:
-  db-data:
+  postgres-data:
 secrets:
-  db-password:
-    file: db/credentials.pass
+  postgres-password:
+    file: config/postgres.pass
   redis-password:
-    file: redis/credentials.pass
+    file: config/redis.pass
   influx-password:
-    file: influx/credentials.pass
-  influxdb-password:
-    file: influxdb/credentials.pass
+    file: config/influx.pass
 networks:
   backend-net:

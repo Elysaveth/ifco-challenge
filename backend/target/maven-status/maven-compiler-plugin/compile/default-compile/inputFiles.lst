@@ -1,1 +1,14 @@
+d:\Proyectos\ifco-challenge\backend\src\main\java\com\ifco\challenge\api\TelemetryController.java
+d:\Proyectos\ifco-challenge\backend\src\main\java\com\ifco\challenge\application\service\TelemetryServiceImpl.java
 d:\Proyectos\ifco-challenge\backend\src\main\java\com\ifco\challenge\ChallengeApplication.java
+d:\Proyectos\ifco-challenge\backend\src\main\java\com\ifco\challenge\domain\model\Telemetry.java
+d:\Proyectos\ifco-challenge\backend\src\main\java\com\ifco\challenge\domain\repository\TelemetryRepository.java
+d:\Proyectos\ifco-challenge\backend\src\main\java\com\ifco\challenge\domain\service\TelemetryService.java
+d:\Proyectos\ifco-challenge\backend\src\main\java\com\ifco\challenge\infrastructure\cache\RedisConfig.java
+d:\Proyectos\ifco-challenge\backend\src\main\java\com\ifco\challenge\infrastructure\config\DockerSecretProcessor.java
+d:\Proyectos\ifco-challenge\backend\src\main\java\com\ifco\challenge\infrastructure\db\entity\TelemetryEntity.java
+d:\Proyectos\ifco-challenge\backend\src\main\java\com\ifco\challenge\infrastructure\db\PostgresConfig.java
+d:\Proyectos\ifco-challenge\backend\src\main\java\com\ifco\challenge\infrastructure\db\SpringDataTelemetryRepository.java
+d:\Proyectos\ifco-challenge\backend\src\main\java\com\ifco\challenge\infrastructure\db\TelemetryRepositoryImpl.java
+d:\Proyectos\ifco-challenge\backend\src\main\java\com\ifco\challenge\infrastructure\events\KafkaConfig.java
+d:\Proyectos\ifco-challenge\backend\src\main\java\com\ifco\challenge\infrastructure\metrics\MetricsConfig.java
