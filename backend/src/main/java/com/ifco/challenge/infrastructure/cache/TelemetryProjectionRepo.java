@@ -40,6 +40,14 @@ public class TelemetryProjectionRepo {
         return scanRecursive(ScanCursor.INITIAL, scanArgs, result);
     }
 
+    public CompletableFuture<Optional<DeviceTelemetryProjection>> findByDeviceId(String deviceId) {
+        
+        return async.hgetall(deviceId).toCompletableFuture().thenApply(map -> {
+            if (map == null || map.isEmpty()) return Optional.empty();
+            return Optional.of(mapToProjection(deviceId, map));
+        });
+    }
+
     private CompletableFuture<List<DeviceTelemetryProjection>> scanRecursive(
         ScanCursor cursor, ScanArgs scanArgs, List<DeviceTelemetryProjection> result) {
 
@@ -69,14 +77,6 @@ public class TelemetryProjectionRepo {
                     }
                 });
             });
-    }
-
-    public CompletableFuture<Optional<DeviceTelemetryProjection>> findByDeviceId(String deviceId) {
-        
-        return async.hgetall(deviceId).toCompletableFuture().thenApply(map -> {
-            if (map == null || map.isEmpty()) return Optional.empty();
-            return Optional.of(mapToProjection(deviceId, map));
-        });
     }
 
     private DeviceTelemetryProjection mapToProjection(String deviceId, Map<String, String> map) {

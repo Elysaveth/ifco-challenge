@@ -2,12 +2,13 @@ package com.ifco.challenge.application.command;
 
 import org.springframework.stereotype.Component;
 
+import com.ifco.challenge.application.usecases.RecordTelemetryUseCase;
 import com.ifco.challenge.domain.bus.EventBus;
 import com.ifco.challenge.domain.model.Telemetry;
 import com.ifco.challenge.domain.repository.TelemetryRepo;
 
 @Component
-public class RecordTelemetryCommandHandler {
+public class RecordTelemetryCommandHandler implements RecordTelemetryUseCase {
     
     private final TelemetryRepo telemetryRepo;
     private final EventBus eventBus;

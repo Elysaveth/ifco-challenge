@@ -3,8 +3,12 @@ d:\Proyectos\ifco-challenge\backend\src\main\java\com\ifco\challenge\api\Telemet
 d:\Proyectos\ifco-challenge\backend\src\main\java\com\ifco\challenge\application\command\RecordTelemetryCommand.java
 d:\Proyectos\ifco-challenge\backend\src\main\java\com\ifco\challenge\application\command\RecordTelemetryCommandHandler.java
 d:\Proyectos\ifco-challenge\backend\src\main\java\com\ifco\challenge\application\listener\TelemetryEventHandler.java
+d:\Proyectos\ifco-challenge\backend\src\main\java\com\ifco\challenge\application\port\GetAllLatestTelemetry.java
 d:\Proyectos\ifco-challenge\backend\src\main\java\com\ifco\challenge\application\port\GetLatestTelemetry.java
 d:\Proyectos\ifco-challenge\backend\src\main\java\com\ifco\challenge\application\port\SaveLatestTelemetry.java
+d:\Proyectos\ifco-challenge\backend\src\main\java\com\ifco\challenge\application\query\GetLatestTelemetryQueryHandler.java
+d:\Proyectos\ifco-challenge\backend\src\main\java\com\ifco\challenge\application\usecases\GetLatestTelemetryUseCase.java
+d:\Proyectos\ifco-challenge\backend\src\main\java\com\ifco\challenge\application\usecases\RecordTelemetryUseCase.java
 d:\Proyectos\ifco-challenge\backend\src\main\java\com\ifco\challenge\ChallengeApplication.java
 d:\Proyectos\ifco-challenge\backend\src\main\java\com\ifco\challenge\domain\bus\EventBus.java
 d:\Proyectos\ifco-challenge\backend\src\main\java\com\ifco\challenge\domain\event\TelemetryAnalyzer.java
