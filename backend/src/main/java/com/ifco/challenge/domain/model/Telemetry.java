@@ -3,24 +3,40 @@ package com.ifco.challenge.domain.model;
 import java.time.Instant;
 
 public class Telemetry {
-    private Long id;
     private String deviceId;
     private double temperature;
     private Instant timestamp;
-    public void setId(Long id2) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setId'");
+
+    public Telemetry (
+        String deviceId,
+        double temperature,
+        Instant timestamp) {
+            this.deviceId = deviceId;
+            this.temperature = temperature;
+            this.timestamp = timestamp;
     }
-    public void setData(String data) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setData'");
+
+    public String getDeviceId() {
+        return deviceId;
     }
-    public Object getData() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getData'");
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
     }
-    public Object getId() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getId'");
+
+    public double getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(double temperature) {
+        this.temperature = temperature;
+    }
+
+    public Instant getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Instant timestamp) {
+        this.timestamp = timestamp;
     } 
 }

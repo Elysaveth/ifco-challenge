@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.ifco.challenge.infrastructure.db.entity.TelemetryEntity;
 
 @Repository
-public interface SpringDataTelemetryRepository extends JpaRepository<TelemetryEntity, Long> {
+public interface JpaTelemetryRepo extends JpaRepository<TelemetryEntity, Long> {
     
 }
