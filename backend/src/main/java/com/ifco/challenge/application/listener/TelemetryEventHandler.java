@@ -5,33 +5,30 @@ import java.util.concurrent.ExecutionException;
 
 import org.springframework.stereotype.Component;
 
-import com.ifco.challenge.application.port.GetLatestTelemetry;
-import com.ifco.challenge.application.port.SaveLatestTelemetry;
 import com.ifco.challenge.domain.checks.TelemetryAnalyzer;
 import com.ifco.challenge.domain.model.Telemetry;
+import com.ifco.challenge.domain.repository.TelemetryProjectionRepo;
+
 
 @Component
 public class TelemetryEventHandler {
     
-    private final GetLatestTelemetry getLatestTelemetry;
-    private final SaveLatestTelemetry saveLatestTelemetry;
+    private final TelemetryProjectionRepo telemetryProjectionRepo;
     private final TelemetryAnalyzer telemetryAnalyzer;
 
     public TelemetryEventHandler (
-            GetLatestTelemetry getLatestTelemetry,
-            SaveLatestTelemetry saveLatestTelemetry,
+        TelemetryProjectionRepo telemetryProjectionRepo,
             TelemetryAnalyzer telemetryAnalyzer) {
-        this.getLatestTelemetry = getLatestTelemetry;
-        this.saveLatestTelemetry = saveLatestTelemetry;
+        this.telemetryProjectionRepo = telemetryProjectionRepo;
         this.telemetryAnalyzer = telemetryAnalyzer;
     }
 
     public void handle(Telemetry event) throws InterruptedException, ExecutionException {
 
-        Optional<Telemetry> latestRecorded = getLatestTelemetry.getLatestTelemetry(event.deviceId()).get();
+        Optional<Telemetry> latestRecorded = telemetryProjectionRepo.findByDeviceId(event.deviceId()).get();
         
         if (telemetryAnalyzer.isLastEvent(event, latestRecorded)) {
-            saveLatestTelemetry.save(event);
+            telemetryProjectionRepo.save(event);
         }
     }
 }

@@ -14,11 +14,11 @@ import org.springframework.stereotype.Repository;
 
 @Slf4j
 @Repository
-public class TelemetryRepositoryImpl implements TelemetryRepo {
+public class TelemetryRepoImpl implements TelemetryRepo {
 
     private final JpaTelemetryRepo jpaTelemetryRepo;
 
-    public TelemetryRepositoryImpl(JpaTelemetryRepo jpaTelemetryRepo) {
+    public TelemetryRepoImpl(JpaTelemetryRepo jpaTelemetryRepo) {
         this.jpaTelemetryRepo = jpaTelemetryRepo;
     }
 

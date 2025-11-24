@@ -37,7 +37,7 @@ management:
   influx:
     metrics:
       export:
-        enabled: true
+        enabled: false
         uri: "http://influx:8086"
         org: challenge
         bucket: challenge_metrics

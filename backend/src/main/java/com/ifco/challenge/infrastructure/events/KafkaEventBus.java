@@ -20,6 +20,7 @@ public class KafkaEventBus implements EventBus {
         this.kafkaTemplate = kafkaTemplate;
     }
 
+    // TODO Catch exceptions
     @Override
     public void publish(TelemetryEventDTO event) {
         kafkaTemplate.send(topic, event.deviceId(), event);

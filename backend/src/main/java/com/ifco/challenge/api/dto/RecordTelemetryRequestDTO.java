@@ -4,6 +4,6 @@ import java.time.Instant;
 
 public record RecordTelemetryRequestDTO (
     String deviceId,
-    Double temperature,
+    Double measurement,
     Instant date
 ) {}

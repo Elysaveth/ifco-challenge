@@ -20,11 +20,11 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Repository
-public class TelemetryProjectionRepo {
+public class RedisTelemetryProjectionRepo {
     
     private final RedisAsyncCommands<String, String> async;
 
-    public TelemetryProjectionRepo (StatefulRedisConnection<String, String> lettuceConnection) {
+    public RedisTelemetryProjectionRepo (StatefulRedisConnection<String, String> lettuceConnection) {
         this.async = lettuceConnection.async();
     }
 
@@ -35,6 +35,7 @@ public class TelemetryProjectionRepo {
             "date", telemetry.date().toString()
         );
 
+        // TODO Create proper monitoring
         log.info("Initiating async save for device: " + telemetry.deviceId());
         return async.hmset(telemetry.deviceId(), map).toCompletableFuture().thenApply(result -> null);
     }

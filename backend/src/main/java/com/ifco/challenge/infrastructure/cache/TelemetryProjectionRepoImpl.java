@@ -1,9 +1,7 @@
 package com.ifco.challenge.infrastructure.cache;
 
 import com.ifco.challenge.domain.model.Telemetry;
-import com.ifco.challenge.application.port.GetAllLatestTelemetry;
-import com.ifco.challenge.application.port.GetLatestTelemetry;
-import com.ifco.challenge.application.port.SaveLatestTelemetry;
+import com.ifco.challenge.domain.repository.TelemetryProjectionRepo;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,16 +10,16 @@ import java.util.concurrent.CompletableFuture;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TelemetryProjectionRepoAdapter implements GetLatestTelemetry, SaveLatestTelemetry, GetAllLatestTelemetry {
+public class TelemetryProjectionRepoImpl implements TelemetryProjectionRepo {
 
-    private final TelemetryProjectionRepo projectionRepo;
+    private final RedisTelemetryProjectionRepo projectionRepo;
 
-    public TelemetryProjectionRepoAdapter(TelemetryProjectionRepo projectionRepo) {
+    public TelemetryProjectionRepoImpl(RedisTelemetryProjectionRepo projectionRepo) {
         this.projectionRepo = projectionRepo;
     }
 
     @Override
-    public CompletableFuture<Optional<Telemetry>> getLatestTelemetry(String deviceId) {
+    public CompletableFuture<Optional<Telemetry>> findByDeviceId(String deviceId) {
         return projectionRepo.findByDeviceId(deviceId)
                 .thenApply(result -> result.map(DeviceTelemetryProjection::toDomain));
     }
@@ -32,7 +30,7 @@ public class TelemetryProjectionRepoAdapter implements GetLatestTelemetry, SaveL
     }
 
     @Override
-    public CompletableFuture<List<Telemetry>> getAll() {
+    public CompletableFuture<List<Telemetry>> findAll() {
         return projectionRepo.findAllAsync()
                 .thenApply(DeviceTelemetryProjection::toDomain);
     }

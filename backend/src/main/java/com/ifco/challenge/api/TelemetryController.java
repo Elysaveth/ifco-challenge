@@ -37,7 +37,7 @@ public class TelemetryController {
         // Maybe just DTO directly
         RecordTelemetryCommand command = new RecordTelemetryCommand(
             telemetry.deviceId(),
-            telemetry.temperature(),
+            telemetry.measurement(),
             telemetry.date()
         );
 

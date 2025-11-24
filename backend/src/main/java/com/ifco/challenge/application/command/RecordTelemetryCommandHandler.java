@@ -39,9 +39,10 @@ public class RecordTelemetryCommandHandler implements RecordTelemetryUseCase {
         List<Telemetry> storedTelemetry = telemetryRepo.findByDate(telemetry.date());
         
         try {
-            if (telemetryAnalyzer.isRepeatedEvent(telemetry, storedTelemetry)) {
+            if (!telemetryAnalyzer.isRepeatedEvent(telemetry, storedTelemetry)) {
                 Telemetry saved = telemetryRepo.save(telemetry);
 
+                // TODO Handle retries and dead-letter
                 eventBus.publish(new TelemetryEventDTO(
                     saved.deviceId(),
                     saved.temperature(),
