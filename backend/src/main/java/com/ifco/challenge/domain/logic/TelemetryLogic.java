@@ -1,4 +1,4 @@
-package com.ifco.challenge.domain.checks;
+package com.ifco.challenge.domain.logic;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,7 +7,7 @@ import com.ifco.challenge.domain.exception.DuplicateRecordException;
 import com.ifco.challenge.domain.model.Telemetry;
 
 
-public class TelemetryAnalyzer {
+public class TelemetryLogic {
     public boolean isLastEvent(Telemetry event, Optional<Telemetry> lastStoredEvent) {
 
         if (lastStoredEvent.isPresent() && lastStoredEvent.get().date().isAfter(event.date())) {

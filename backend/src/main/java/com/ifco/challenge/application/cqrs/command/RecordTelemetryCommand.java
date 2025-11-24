@@ -1,4 +1,4 @@
-package com.ifco.challenge.application.command;
+package com.ifco.challenge.application.cqrs.command;
 
 import java.time.Instant;
 

@@ -1,4 +1,4 @@
-package com.ifco.challenge.application.bus;
+package com.ifco.challenge.application.events;
 
 import com.ifco.challenge.application.dto.TelemetryEventDTO;
 

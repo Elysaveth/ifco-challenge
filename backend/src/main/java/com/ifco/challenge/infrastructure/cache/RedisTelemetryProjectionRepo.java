@@ -10,6 +10,7 @@ import java.util.concurrent.CompletableFuture;
 import org.springframework.stereotype.Repository;
 
 import com.ifco.challenge.domain.model.Telemetry;
+import com.ifco.challenge.infrastructure.cache.entity.TelemetryProjectionEntity;
 
 import io.lettuce.core.ScanArgs;
 import io.lettuce.core.ScanCursor;
@@ -40,13 +41,13 @@ public class RedisTelemetryProjectionRepo {
         return async.hmset(telemetry.deviceId(), map).toCompletableFuture().thenApply(result -> null);
     }
 
-    public CompletableFuture<List<DeviceTelemetryProjection>> findAllAsync() {
-        List<DeviceTelemetryProjection> result = new ArrayList<>();
+    public CompletableFuture<List<TelemetryProjectionEntity>> findAllAsync() {
+        List<TelemetryProjectionEntity> result = new ArrayList<>();
         ScanArgs scanArgs = ScanArgs.Builder.matches("*").limit(500);
         return scanRecursive(ScanCursor.INITIAL, scanArgs, result);
     }
 
-    public CompletableFuture<Optional<DeviceTelemetryProjection>> findByDeviceId(String deviceId) {
+    public CompletableFuture<Optional<TelemetryProjectionEntity>> findByDeviceId(String deviceId) {
         
         return async.hgetall(deviceId).toCompletableFuture().thenApply(map -> {
             if (map == null || map.isEmpty()) return Optional.empty();
@@ -54,8 +55,8 @@ public class RedisTelemetryProjectionRepo {
         });
     }
 
-    private CompletableFuture<List<DeviceTelemetryProjection>> scanRecursive(
-        ScanCursor cursor, ScanArgs scanArgs, List<DeviceTelemetryProjection> result) {
+    private CompletableFuture<List<TelemetryProjectionEntity>> scanRecursive(
+        ScanCursor cursor, ScanArgs scanArgs, List<TelemetryProjectionEntity> result) {
 
     return async.scan(cursor, scanArgs)
             .toCompletableFuture()
@@ -85,8 +86,8 @@ public class RedisTelemetryProjectionRepo {
             });
     }
 
-    private DeviceTelemetryProjection mapToProjection(String deviceId, Map<String, String> map) {
-        return new DeviceTelemetryProjection(
+    private TelemetryProjectionEntity mapToProjection(String deviceId, Map<String, String> map) {
+        return new TelemetryProjectionEntity(
                 deviceId,
                 (double) Double.parseDouble((String) map.get("temperature")),
                 Instant.parse((String) map.get("date"))

@@ -1,14 +1,15 @@
 package com.ifco.challenge.application.config;
 
-import com.ifco.challenge.domain.checks.TelemetryAnalyzer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import com.ifco.challenge.domain.logic.TelemetryLogic;
 
 @Configuration
 public class ApplicationConfig {
 
     @Bean
-    public TelemetryAnalyzer telemetryAnalyzer() {
-        return new TelemetryAnalyzer();
+    public TelemetryLogic telemetryAnalyzer() {
+        return new TelemetryLogic();
     }
 }

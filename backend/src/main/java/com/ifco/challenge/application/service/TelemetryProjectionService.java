@@ -6,21 +6,21 @@ import java.util.concurrent.CompletableFuture;
 
 import org.springframework.stereotype.Service;
 
-import com.ifco.challenge.application.port.GetAllLatestTelemetry;
-import com.ifco.challenge.application.port.GetLatestTelemetry;
-import com.ifco.challenge.application.port.SaveLatestTelemetry;
+import com.ifco.challenge.application.port.GetAllTelemetryProjection;
+import com.ifco.challenge.application.port.GetTelemetryProjection;
+import com.ifco.challenge.application.port.SaveTelemetryProjection;
 import com.ifco.challenge.domain.model.Telemetry;
 import com.ifco.challenge.domain.repository.TelemetryProjectionRepo;
 
 @Service
-public class LatestTelemetryService implements
-        GetLatestTelemetry,
-        SaveLatestTelemetry,
-        GetAllLatestTelemetry {
+public class TelemetryProjectionService implements
+        GetTelemetryProjection,
+        SaveTelemetryProjection,
+        GetAllTelemetryProjection {
 
     private final TelemetryProjectionRepo repo;
 
-    public LatestTelemetryService(TelemetryProjectionRepo repo) {
+    public TelemetryProjectionService(TelemetryProjectionRepo repo) {
         this.repo = repo;
     }
 

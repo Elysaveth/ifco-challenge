@@ -1,9 +1,9 @@
 package com.ifco.challenge.api;
 
 import com.ifco.challenge.api.dto.RecordTelemetryRequestDTO;
-import com.ifco.challenge.application.command.RecordTelemetryCommand;
-import com.ifco.challenge.application.command.RecordTelemetryCommandHandler;
-import com.ifco.challenge.application.query.GetLatestTelemetryQueryHandler;
+import com.ifco.challenge.application.cqrs.command.RecordTelemetryCommand;
+import com.ifco.challenge.application.cqrs.command.RecordTelemetryCommandHandler;
+import com.ifco.challenge.application.cqrs.query.GetLatestTelemetryQueryHandler;
 import com.ifco.challenge.domain.model.Telemetry;
 
 import java.util.List;

@@ -1,11 +1,10 @@
 package com.ifco.challenge.application.port;
 
-import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 import com.ifco.challenge.domain.model.Telemetry;
 
-public interface GetAllLatestTelemetry {
-    CompletableFuture<List<Telemetry>> getAll();
+public interface GetTelemetryProjection {
+    CompletableFuture<Optional<Telemetry>> getLatestTelemetry(String deviceId);
 }
-
