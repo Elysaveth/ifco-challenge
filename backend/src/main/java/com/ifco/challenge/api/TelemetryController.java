@@ -2,8 +2,8 @@ package com.ifco.challenge.api;
 
 import com.ifco.challenge.api.dto.RecordTelemetryRequestDTO;
 import com.ifco.challenge.application.cqrs.command.RecordTelemetryCommand;
-import com.ifco.challenge.application.cqrs.command.RecordTelemetryCommandHandler;
-import com.ifco.challenge.application.cqrs.query.GetLatestTelemetryQueryHandler;
+import com.ifco.challenge.application.usecases.GetLatestTelemetryUseCase;
+import com.ifco.challenge.application.usecases.RecordTelemetryUseCase;
 import com.ifco.challenge.domain.model.Telemetry;
 
 import java.util.List;
@@ -21,12 +21,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequestMapping("/telemetry")
 public class TelemetryController {
 
-    private final RecordTelemetryCommandHandler recordHandler;
-    private final GetLatestTelemetryQueryHandler getLatestHandler;
+    private final RecordTelemetryUseCase recordHandler;
+    private final GetLatestTelemetryUseCase getLatestHandler;
 
     public TelemetryController(
-            RecordTelemetryCommandHandler recordHandler,
-            GetLatestTelemetryQueryHandler getLatestHandler) {
+            RecordTelemetryUseCase recordHandler,
+            GetLatestTelemetryUseCase getLatestHandler) {
         this.recordHandler = recordHandler;
         this.getLatestHandler = getLatestHandler;
     }

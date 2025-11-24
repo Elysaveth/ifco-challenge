@@ -5,27 +5,27 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.ifco.challenge.application.dto.TelemetryEventDTO;
-import com.ifco.challenge.application.events.EventBus;
+import com.ifco.challenge.application.event.EventBus;
 import com.ifco.challenge.application.service.TelemetryService;
 import com.ifco.challenge.application.usecases.RecordTelemetryUseCase;
 import com.ifco.challenge.domain.exception.DuplicateRecordException;
-import com.ifco.challenge.domain.logic.TelemetryLogic;
+import com.ifco.challenge.domain.logic.TelemetryDomainService;
 import com.ifco.challenge.domain.model.Telemetry;
 
 @Component
 public class RecordTelemetryCommandHandler implements RecordTelemetryUseCase {
     
     private final EventBus eventBus;
-    private final TelemetryLogic telemetryAnalyzer;
+    private final TelemetryDomainService telemetryDomainService;
     private final TelemetryService telemetryService;
 
 
     public RecordTelemetryCommandHandler (
         EventBus eventBus,
-        TelemetryLogic telemetryAnalyzer,
+        TelemetryDomainService telemetryDomainService,
         TelemetryService telemetryService) {
             this.eventBus = eventBus;
-            this.telemetryAnalyzer = telemetryAnalyzer;
+            this.telemetryDomainService = telemetryDomainService;
             this.telemetryService = telemetryService;
     }
 
@@ -39,7 +39,7 @@ public class RecordTelemetryCommandHandler implements RecordTelemetryUseCase {
         List<Telemetry> storedTelemetry = telemetryService.findByDate(telemetry.date());
         
         try {
-            if (!telemetryAnalyzer.isRepeatedEvent(telemetry, storedTelemetry)) {
+            if (!telemetryDomainService.isRepeatedEvent(telemetry, storedTelemetry)) {
                 Telemetry saved = telemetryService.save(telemetry);
 
                 // TODO Handle retries and dead-letter

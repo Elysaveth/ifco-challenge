@@ -3,13 +3,13 @@ package com.ifco.challenge.application.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.ifco.challenge.domain.logic.TelemetryLogic;
+import com.ifco.challenge.domain.logic.TelemetryDomainService;
 
 @Configuration
 public class ApplicationConfig {
 
     @Bean
-    public TelemetryLogic telemetryAnalyzer() {
-        return new TelemetryLogic();
+    public TelemetryDomainService telemetryDomainService() {
+        return new TelemetryDomainService();
     }
 }

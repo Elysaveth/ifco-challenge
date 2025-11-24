@@ -6,7 +6,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import com.ifco.challenge.application.dto.TelemetryEventDTO;
-import com.ifco.challenge.application.events.EventBus;
+import com.ifco.challenge.application.event.EventBus;
 
 @Component
 @Profile("!test")
@@ -20,7 +20,7 @@ public class KafkaEventBus implements EventBus {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    // TODO Catch exceptions
+    // TODO catch exceptions
     @Override
     public void publish(TelemetryEventDTO event) {
         kafkaTemplate.send(topic, event.deviceId(), event);

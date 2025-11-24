@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import com.ifco.challenge.application.dto.TelemetryEventDTO;
-import com.ifco.challenge.application.events.EventBus;
+import com.ifco.challenge.application.event.EventBus;
 
 @Component
 @Profile("test")

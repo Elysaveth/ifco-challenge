@@ -6,7 +6,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 import com.ifco.challenge.application.dto.TelemetryEventDTO;
-import com.ifco.challenge.application.events.listener.TelemetryEventHandler;
+import com.ifco.challenge.application.event.listener.TelemetryEventHandler;
 import com.ifco.challenge.domain.model.Telemetry;
 
 import lombok.extern.slf4j.Slf4j;

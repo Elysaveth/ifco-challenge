@@ -1,4 +1,4 @@
-package com.ifco.challenge.application.events.listener;
+package com.ifco.challenge.application.event.listener;
 
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
@@ -6,7 +6,7 @@ import java.util.concurrent.ExecutionException;
 import org.springframework.stereotype.Component;
 
 import com.ifco.challenge.application.service.TelemetryProjectionService;
-import com.ifco.challenge.domain.logic.TelemetryLogic;
+import com.ifco.challenge.domain.logic.TelemetryDomainService;
 import com.ifco.challenge.domain.model.Telemetry;
 
 
@@ -14,20 +14,20 @@ import com.ifco.challenge.domain.model.Telemetry;
 public class TelemetryEventHandler {
     
     private final TelemetryProjectionService telemetryProjectionService;
-    private final TelemetryLogic telemetryLogic;
+    private final TelemetryDomainService telemetryDomainService;
 
     public TelemetryEventHandler (
         TelemetryProjectionService telemetryProjectionService,
-            TelemetryLogic telemetryLogic) {
+            TelemetryDomainService telemetryDomainService) {
         this.telemetryProjectionService = telemetryProjectionService;
-        this.telemetryLogic = telemetryLogic;
+        this.telemetryDomainService = telemetryDomainService;
     }
 
     public void handle(Telemetry event) throws InterruptedException, ExecutionException {
 
         Optional<Telemetry> latestRecorded = telemetryProjectionService.getLatestTelemetry(event.deviceId()).get();
         
-        if (telemetryLogic.isLastEvent(event, latestRecorded)) {
+        if (telemetryDomainService.isLastEvent(event, latestRecorded)) {
             telemetryProjectionService.save(event);
         }
     }
