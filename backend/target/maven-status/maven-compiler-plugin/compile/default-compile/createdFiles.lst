@@ -4,7 +4,6 @@ com\ifco\challenge\infrastructure\db\TelemetryRepositoryImpl.class
 com\ifco\challenge\application\port\SaveLatestTelemetry.class
 com\ifco\challenge\domain\repository\TelemetryRepo.class
 com\ifco\challenge\infrastructure\cache\RedisConfig.class
-com\ifco\challenge\domain\bus\EventBus.class
 com\ifco\challenge\infrastructure\cache\TelemetryProjectionRepoAdapter.class
 com\ifco\challenge\domain\model\Telemetry.class
 com\ifco\challenge\application\port\GetAllLatestTelemetry.class
@@ -15,13 +14,14 @@ com\ifco\challenge\api\TelemetryController.class
 com\ifco\challenge\infrastructure\events\KafkaEventBus.class
 com\ifco\challenge\application\command\RecordTelemetryCommand.class
 com\ifco\challenge\application\listener\TelemetryEventHandler.class
-com\ifco\challenge\domain\event\TelemetryAnalyzer.class
 com\ifco\challenge\application\query\GetLatestTelemetryQueryHandler.class
 com\ifco\challenge\infrastructure\cache\DeviceTelemetryProjection.class
 com\ifco\challenge\application\command\RecordTelemetryCommandHandler.class
 com\ifco\challenge\application\usecases\RecordTelemetryUseCase.class
 com\ifco\challenge\infrastructure\events\NoOpEventBus.class
 com\ifco\challenge\application\port\GetLatestTelemetry.class
+com\ifco\challenge\application\dto\TelemetryEventDTO.class
 com\ifco\challenge\application\usecases\GetLatestTelemetryUseCase.class
 com\ifco\challenge\infrastructure\config\DockerSecretProcessor.class
+com\ifco\challenge\application\bus\EventBus.class
 com\ifco\challenge\infrastructure\db\entity\TelemetryEntity.class

@@ -11,6 +11,8 @@ import lombok.Setter;
 
 import java.time.Instant;
 
+import com.ifco.challenge.domain.model.Telemetry;
+
 @Entity
 @NoArgsConstructor
 @Setter
@@ -25,4 +27,11 @@ public class TelemetryEntity {
     private double temperature;
     private Instant date;
 
+    public static Telemetry toDomain(TelemetryEntity telemetry) {
+        return new Telemetry(
+            telemetry.getDeviceId(),
+            telemetry.getTemperature(),
+            telemetry.getDate()
+        );
+    }
 }

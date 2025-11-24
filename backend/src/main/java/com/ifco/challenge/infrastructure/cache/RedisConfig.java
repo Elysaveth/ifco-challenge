@@ -12,11 +12,6 @@ import io.lettuce.core.api.StatefulRedisConnection;
 @Configuration
 public class RedisConfig {
 
-    @Bean
-    public LettuceConnectionFactory redisConnectionFactory(RedisStandaloneConfiguration conf) {
-        return new LettuceConnectionFactory(conf);
-    }
-
     // Lettuce Client for async scans
     @Bean(destroyMethod = "close")
     public StatefulRedisConnection<String, String> lettuceConnection(LettuceConnectionFactory factory) {

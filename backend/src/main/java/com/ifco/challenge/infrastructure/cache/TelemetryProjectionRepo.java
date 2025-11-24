@@ -15,7 +15,10 @@ import io.lettuce.core.ScanArgs;
 import io.lettuce.core.ScanCursor;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.async.RedisAsyncCommands;
+import lombok.extern.slf4j.Slf4j;
 
+
+@Slf4j
 @Repository
 public class TelemetryProjectionRepo {
     
@@ -26,11 +29,13 @@ public class TelemetryProjectionRepo {
     }
 
     public CompletableFuture<Void> save(Telemetry telemetry) {
+        log.info("Saving telemetry: " + telemetry);
         Map<String, String> map = Map.of(
             "temperature", String.valueOf(telemetry.temperature()),
             "date", telemetry.date().toString()
         );
 
+        log.info("Initiating async save for device: " + telemetry.deviceId());
         return async.hmset(telemetry.deviceId(), map).toCompletableFuture().thenApply(result -> null);
     }
 

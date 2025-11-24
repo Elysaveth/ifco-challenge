@@ -3,5 +3,10 @@
     "name": "docker-secret.bind-path",
     "type": "java.lang.String",
     "description": "Path to secrets inside Docker container"
+  },
+  {
+    "name": "topics.telemetry-recorded",
+    "type": "java.lang.String",
+    "description": "The topic for the messages when registrering telemetry"
   }
 ]}

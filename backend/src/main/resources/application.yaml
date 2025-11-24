@@ -5,7 +5,7 @@ spring:
   datasource:
     url: jdbc:postgresql://postgres:5432/challenge
     username: postgres
-    password: ${docker-secret.postgres.passwd:password}
+    password: ${docker-secret-postgres-password:password}
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 10
@@ -23,11 +23,10 @@ spring:
     redis:
       host: redis
       port: 6379
-      password: ${docker-secret.redis.passwd:password}
+      password: ${docker-secret-redis-password:password}
 
   kafka:
-    bootstrap-servers:
-    - "kafka:9092"
+    bootstrap-servers: "kafka:9092"
 
 
 management:
@@ -39,10 +38,14 @@ management:
     metrics:
       export:
         enabled: true
-        uri: "http://influxdb:8086"
-        db: challenge_metrics
-        password: ${docker-secret.influx.passwd:password}
+        uri: "http://influx:8086"
+        org: challenge
+        bucket: challenge_metrics
+        token: ${docker-secret-influxdb-token:token}
+        api-version: v2
 
+topics:
+  telemetry-recorded: telemetry
 
 docker-secret:
   bind-path: /run/secrets/

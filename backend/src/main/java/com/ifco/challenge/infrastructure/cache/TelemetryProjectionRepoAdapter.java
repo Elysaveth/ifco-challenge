@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class TelemetryProjectionRepoAdapter implements GetLatestTelemetry, SaveLatestTelemetry, GetAllLatestTelemetry {
 
     private final TelemetryProjectionRepo projectionRepo;

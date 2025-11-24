@@ -3,11 +3,14 @@ package com.ifco.challenge.application.listener;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
+import org.springframework.stereotype.Component;
+
 import com.ifco.challenge.application.port.GetLatestTelemetry;
 import com.ifco.challenge.application.port.SaveLatestTelemetry;
-import com.ifco.challenge.domain.event.TelemetryAnalyzer;
+import com.ifco.challenge.domain.checks.TelemetryAnalyzer;
 import com.ifco.challenge.domain.model.Telemetry;
 
+@Component
 public class TelemetryEventHandler {
     
     private final GetLatestTelemetry getLatestTelemetry;

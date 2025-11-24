@@ -6,8 +6,9 @@ services:
       - redis
       - kafka
     secrets:
-      - db-password
+      - postgres-password
       - redis-password
+      - influxdb-password
     environment:
       - POSTGRES_DB=challenge
       - POSTGRES_PORT=5432
@@ -23,16 +24,16 @@ services:
     secrets:
       - postgres-password
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql
       - ./db/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
     environment:
       - POSTGRES_DB=challenge
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres-password
     networks:
       - backend-net
     ports:
-      - 5432
+      - 5432:5432
 
   redis:
     image: redis:latest
@@ -45,31 +46,37 @@ services:
     networks:
       - backend-net
     ports:
-      - 6379
+      - 6379:6379
 
   kafka:
-    image: docker.redpanda.com/redpanda/redpanda:latest
-    restart: unless-stopped
-    command:
-      - redpanda
-      - start
-      - --overprovisioned
-      - --smp=1
-      - --memory=1G
-      - --reserve-memory=0M
-      - --node-id=0
-      - --check=false
-      - --set redpanda.auto_create_topics_enabled=true
+    image: apache/kafka:latest
+    hostname: kafka
     environment:
-      - REDPANDA_AUTO_CREATE_TOPICS=true
+      KAFKA_BROKER_ID: 1
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_NODE_ID: 1
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:29093
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://kafka:29093
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LOG_DIRS: /tmp/kraft-combined-logs
+      KAFKA_CREATE_TOPICS: "telemetry:1:1"
+      CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
     networks:
       - backend-net
     ports:
-      - 9092
+      - 9092:9092
 
   # Used for performance-checks, not necessary
   influxdb:
-    image: influxdb:2.7
+    image: influxdb:latest
+    hostname: influx
     restart: unless-stopped
     secrets:
       - influxdb-password
@@ -80,21 +87,26 @@ services:
       - DOCKER_INFLUXDB_INIT_USERNAME=admin
       - DOCKER_INFLUXDB_INIT_PASSWORD_FILE=/run/secrets/influxdb-password
       - DOCKER_INFLUXDB_INIT_ORG=challenge
-      - DOCKER_INFLUXDB_INIT_BUCKET=telemetry
+      - DOCKER_INFLUXDB_INIT_BUCKET=challenge_metrics
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN_FILE=/run/secrets/influxdb-token
+      - INFLUXD_LOG_LEVEL=debug
     networks:
       - backend-net
     ports:
-      - 8086
+      - 8086:8086
 
 volumes:
   cache:
   postgres-data:
+  influxdb-data:
 secrets:
   postgres-password:
     file: config/postgres.pass
   redis-password:
     file: config/redis.pass
-  influx-password:
+  influxdb-password:
     file: config/influx.pass
+  influxdb-token:
+    file: config/influx.token
 networks:
   backend-net:

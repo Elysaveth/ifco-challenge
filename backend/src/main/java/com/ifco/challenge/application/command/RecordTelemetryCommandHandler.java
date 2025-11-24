@@ -1,9 +1,14 @@
 package com.ifco.challenge.application.command;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
+import com.ifco.challenge.application.bus.EventBus;
+import com.ifco.challenge.application.dto.TelemetryEventDTO;
 import com.ifco.challenge.application.usecases.RecordTelemetryUseCase;
-import com.ifco.challenge.domain.bus.EventBus;
+import com.ifco.challenge.domain.checks.TelemetryAnalyzer;
+import com.ifco.challenge.domain.exception.DuplicateRecordException;
 import com.ifco.challenge.domain.model.Telemetry;
 import com.ifco.challenge.domain.repository.TelemetryRepo;
 
@@ -12,12 +17,16 @@ public class RecordTelemetryCommandHandler implements RecordTelemetryUseCase {
     
     private final TelemetryRepo telemetryRepo;
     private final EventBus eventBus;
+    private final TelemetryAnalyzer telemetryAnalyzer;
+
 
     public RecordTelemetryCommandHandler (
         TelemetryRepo telemetryRepo,
-        EventBus eventBus) {
+        EventBus eventBus,
+        TelemetryAnalyzer telemetryAnalyzer) {
             this.telemetryRepo = telemetryRepo;
             this.eventBus = eventBus;
+            this.telemetryAnalyzer = telemetryAnalyzer;
     }
 
     public void handle(RecordTelemetryCommand command) {
@@ -27,13 +36,23 @@ public class RecordTelemetryCommandHandler implements RecordTelemetryUseCase {
             command.date()
         );
 
-        Telemetry saved = telemetryRepo.save(telemetry);
+        List<Telemetry> storedTelemetry = telemetryRepo.findByDate(telemetry.date());
+        
+        try {
+            if (telemetryAnalyzer.isRepeatedEvent(telemetry, storedTelemetry)) {
+                Telemetry saved = telemetryRepo.save(telemetry);
 
-        eventBus.publish(new Telemetry(
-            saved.deviceId(),
-            saved.temperature(),
-            saved.date()
-        ));
+                eventBus.publish(new TelemetryEventDTO(
+                    saved.deviceId(),
+                    saved.temperature(),
+                    saved.date()
+        
+                ));
+            }
+        } catch (DuplicateRecordException e) {
+            e.printStackTrace();
+            telemetryRepo.deleteDuplicate(telemetry);
+        }
     }
 
 }
