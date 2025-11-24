@@ -8,6 +8,16 @@ The project follows **Clean Architecture** and **CQRS** to ensure scalability an
 ----------
 <br/>
 
+## DISCLAIMERS
+-   The influx implementation is currently failing because of an authentication error.
+
+-   Integration tests are currently disabled as well as an application test pending of fixing after refactor
+
+-   Projection integration is currently half async - half syncronous as fully reactive endpoints would require serious architectural changes
+
+----------
+<br/>
+
 ## Features
 
 ### **Telemetry Ingestion**
@@ -22,7 +32,7 @@ Returns the latest telemetry for each device from Redis.
 
 ### **Duplicate Handling**
 
-Custom domain logic (`TelemetryAnalyzer`) prevents duplicates and automatically cleans them if found.
+Custom domain logic (`TelemetryDomainService`) prevents duplicates and automatically cleans them if found.
 
 
 ### **Docker Secrets Support**
